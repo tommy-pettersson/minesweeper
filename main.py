@@ -21,23 +21,23 @@ def main():
         for j in range(0, settings.rows):
             settings.grid[i][j] = Cell(i, j)
 
-    # Make bees
+    # Make mines
     options = []
     for i in range(settings.cols):
         for j in range(settings.rows):
             options.append((i, j))
     
-    for _ in range(settings.num_bees):
+    for _ in range(settings.num_mines):
         pick = random.choice(options)
         i = pick[0]
         j = pick[1]
-        settings.grid[i][j].bee = True
+        settings.grid[i][j].mine = True
         options.remove(pick)
 
     # Count neighbours
     for i in range(settings.cols):
         for j in range(settings.rows):
-            settings.grid[i][j].count_bees()
+            settings.grid[i][j].count_mines()
     
     # Initialise sprites
     cells = pyg.sprite.Group()

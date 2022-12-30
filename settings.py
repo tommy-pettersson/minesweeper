@@ -4,14 +4,14 @@ def init():
     global rows
     global grid
     global w
-    global num_bees
+    global num_mines
 
     window_size = 600
     cols = 20
     rows = cols
     grid = make_2D_array(cols, rows)
     w = window_size // cols
-    num_bees = (cols * rows) // 10
+    num_mines = (cols * rows) // 10
 
 
 def make_2D_array(cols, rows):

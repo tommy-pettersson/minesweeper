@@ -9,8 +9,8 @@ class Cell(pyg.sprite.Sprite):
         self.j = j
         self.x = i * settings.w
         self.y = j * settings.w
-        self.bee = False
-        self.revealed = True
+        self.mine = False
+        self.revealed = False
         self.font = pyg.font.SysFont('comicsans', settings.w // 2)
 
         self.image = pyg.Surface((settings.w, settings.w))
@@ -18,8 +18,8 @@ class Cell(pyg.sprite.Sprite):
 
         self.neighbours = 0
 
-    def count_bees(self):
-        if self.bee:
+    def count_mines(self):
+        if self.mine:
             self.neighbours = -1
             return
 
@@ -30,7 +30,7 @@ class Cell(pyg.sprite.Sprite):
                 j = self.j + yoff
 
                 if i >= 0 and i < settings.cols and j >= 0 and j < settings.rows:
-                    if settings.grid[i][j].bee:
+                    if settings.grid[i][j].mine:
                         total += 1
         self.neighbours = total
 
@@ -41,7 +41,7 @@ class Cell(pyg.sprite.Sprite):
                 j = self.j + yoff
 
                 if i >= 0 and i < len(settings.grid) and j >= 0 and j < len(settings.grid[0]):
-                    if not settings.grid[i][j].bee and not settings.grid[i][j].revealed:
+                    if not settings.grid[i][j].mine and not settings.grid[i][j].revealed:
                         settings.grid[i][j].reveal()
 
     def reveal(self):
@@ -64,7 +64,7 @@ class Cell(pyg.sprite.Sprite):
         if self.revealed:
             pyg.draw.rect(self.image, 'gray90', pyg.Rect(1, 1, settings.w - 2, settings.w - 2))
 
-            if self.bee:
+            if self.mine:
                 pyg.draw.circle(self.image, 'black', (settings.w * 0.5, settings.w * 0.5), settings.w * 0.3)
             else:
                 if self.neighbours > 0:
