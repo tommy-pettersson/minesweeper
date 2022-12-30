@@ -11,7 +11,7 @@ def main():
     # Initialise screen
     pyg.init()
     screen = pyg.display.set_mode((settings.window_size, settings.window_size))
-    pyg.display.set_caption('gridder')
+    pyg.display.set_caption('MineSweeper')
 
     # Initialise clock
     clock = pyg.time.Clock()
