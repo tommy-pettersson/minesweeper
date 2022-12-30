@@ -3,6 +3,13 @@ from pygame.locals import *
 from cell import Cell
 import random
 import settings
+import time
+
+
+def gameOver():
+    for i in range(settings.cols):
+        for j in range(settings.rows):
+            settings.grid[i][j].revealed = True
 
 
 def main():
@@ -60,7 +67,10 @@ def main():
                 for cell in cells:
                     if cell.check_click(event.pos):
                         if event.button == 1:
+                            if cell.mine:
+                                gameOver()
                             cell.reveal()
+
                         if event.button == 3:
                             cell.mark()
 
