@@ -59,7 +59,10 @@ def main():
             if event.type == MOUSEBUTTONDOWN:
                 for cell in cells:
                     if cell.check_click(event.pos):
-                        cell.reveal()
+                        if event.button == 1:
+                            cell.reveal()
+                        if event.button == 3:
+                            cell.mark()
 
         cells.update()
         cells.draw(screen)

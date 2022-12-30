@@ -11,12 +11,16 @@ class Cell(pyg.sprite.Sprite):
         self.y = j * settings.w
         self.mine = False
         self.revealed = False
+        self.marked = False
         self.font = pyg.font.SysFont('comicsans', settings.w // 2)
 
         self.image = pyg.Surface((settings.w, settings.w))
         self.rect = self.image.get_rect(topleft=(self.x, self.y))
 
         self.neighbours = 0
+
+    def mark(self):
+        self.marked = not self.marked
 
     def count_mines(self):
         if self.mine:
@@ -60,6 +64,11 @@ class Cell(pyg.sprite.Sprite):
 
         if not self.revealed:
             pyg.draw.rect(self.image, 'gray70', pyg.Rect(1, 1, settings.w - 2, settings.w - 2))
+
+        if self.marked:
+            text = self.font.render('X', True, 'red')
+            text_rect = text.get_rect(center=(settings.w / 2, settings.w / 2))
+            self.image.blit(text, text_rect)
 
         if self.revealed:
             pyg.draw.rect(self.image, 'gray90', pyg.Rect(1, 1, settings.w - 2, settings.w - 2))
