@@ -12,7 +12,6 @@ class Cell(pyg.sprite.Sprite):
         self.mine = False
         self.revealed = False
         self.marked = False
-        self.font = pyg.font.SysFont('comicsans', settings.w // 2)
 
         self.image = pyg.Surface((settings.w, settings.w))
         self.rect = self.image.get_rect(topleft=(self.x, self.y))
@@ -66,7 +65,7 @@ class Cell(pyg.sprite.Sprite):
             pyg.draw.rect(self.image, 'gray70', pyg.Rect(1, 1, settings.w - 2, settings.w - 2))
 
         if self.marked:
-            text = self.font.render('X', True, 'red')
+            text = settings.font.render('X', True, 'red')
             text_rect = text.get_rect(center=(settings.w / 2, settings.w / 2))
             self.image.blit(text, text_rect)
 
@@ -77,6 +76,6 @@ class Cell(pyg.sprite.Sprite):
                 pyg.draw.circle(self.image, 'black', (settings.w * 0.5, settings.w * 0.5), settings.w * 0.3)
             else:
                 if self.neighbours > 0:
-                    text = self.font.render(str(self.neighbours), True, 'black')
+                    text = settings.font.render(str(self.neighbours), True, 'black')
                     text_rect = text.get_rect(center=(settings.w / 2, settings.w / 2))
                     self.image.blit(text, text_rect)

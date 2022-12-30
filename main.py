@@ -13,10 +13,11 @@ def gameOver():
 
 
 def main():
-    settings.init()
-
-    # Initialise screen
     pyg.init()
+
+    settings.init()
+    settings.font = pyg.font.SysFont('comicsans', settings.w // 2)
+
     screen = pyg.display.set_mode((settings.window_size, settings.window_size))
     pyg.display.set_caption('MineSweeper')
 

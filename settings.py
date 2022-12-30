@@ -5,6 +5,7 @@ def init():
     global grid
     global w
     global num_mines
+    global font
 
     window_size = 600
     cols = 20
@@ -12,6 +13,7 @@ def init():
     grid = make_2D_array(cols, rows)
     w = window_size // cols
     num_mines = (cols * rows) // 10
+    font = None
 
 
 def make_2D_array(cols, rows):
