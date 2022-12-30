@@ -2,76 +2,48 @@ import pygame as pyg
 from pygame.locals import *
 from cell import Cell
 import random
-
-WINWIDTH = 1200
-WINDHEIGTH = 1200
-
-cols = 20
-rows = cols
-w = WINWIDTH // cols
-num_bees = (cols * rows) // 10
-
-
-def make_2D_array(cols, rows):
-    arr = [n for n in range(cols)]
-    for i, _ in enumerate(arr):
-        arr[i] = [n for n in range(rows)]
-    return arr
+import settings
 
 
 def main():
+    settings.init()
+
     # Initialise screen
     pyg.init()
-    screen = pyg.display.set_mode((WINWIDTH, WINDHEIGTH))
+    screen = pyg.display.set_mode((settings.window_size, settings.window_size))
     pyg.display.set_caption('gridder')
 
     # Initialise clock
     clock = pyg.time.Clock()
 
     # Initialise grid
-    grid = make_2D_array(cols, rows)
-    for i in range(0, cols):
-        for j in range(0, rows):
-            grid[i][j] = Cell(i, j, w)
+    for i in range(0, settings.cols):
+        for j in range(0, settings.rows):
+            settings.grid[i][j] = Cell(i, j)
 
     # Make bees
     options = []
-    for i in range(cols):
-        for j in range(rows):
+    for i in range(settings.cols):
+        for j in range(settings.rows):
             options.append((i, j))
     
-    for _ in range(num_bees):
+    for _ in range(settings.num_bees):
         pick = random.choice(options)
         i = pick[0]
         j = pick[1]
-        grid[i][j].bee = True
+        settings.grid[i][j].bee = True
         options.remove(pick)
 
     # Count neighbours
-    for i in range(cols):
-        for j in range(rows):
-            total = 0
-            print('testing cell:', i, j)
-            cell = grid[i][j]
-
-            if cell.bee:
-                print('found bee and skipping:', i, j)
-                cell.neighbours = -1
-                continue
-
-            for xoff in range(i - 1, i + 2):
-                for yoff in range(j - 1, j + 2):
-                    if xoff >= 0 and xoff < cols and yoff >= 0 and yoff < rows:
-                        if grid[xoff][yoff].bee:
-                            total += 1
-            
-            cell.neighbours = total
+    for i in range(settings.cols):
+        for j in range(settings.rows):
+            settings.grid[i][j].count_bees()
     
     # Initialise sprites
     cells = pyg.sprite.Group()
-    for i in range(cols):
-        for j in range(rows):
-            cells.add(grid[i][j])
+    for i in range(settings.cols):
+        for j in range(settings.rows):
+            cells.add(settings.grid[i][j])
 
     while True:
         clock.tick(60)
@@ -86,7 +58,8 @@ def main():
 
             if event.type == MOUSEBUTTONDOWN:
                 for cell in cells:
-                    cell.check_click(event.pos)
+                    if cell.check_click(event.pos):
+                        cell.reveal()
 
         cells.update()
         cells.draw(screen)
